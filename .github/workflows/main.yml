@@ -6,6 +6,8 @@ on:
     secrets:
       GH_EKO_TOKEN:
         required: true
+      GH_TOKEN:
+        required: true
       GITGUARDIAN_API_KEY:
         required: true
       SONAR_TOKEN:
@@ -39,4 +41,4 @@ jobs:
     uses: ./.github/workflows/security_dast.yml
     needs: deploy_to_heroku
     secrets:
-      GH_EKO_TOKEN: ${{ secrets.GH_EKO_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
