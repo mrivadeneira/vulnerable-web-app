@@ -1,0 +1,28 @@
+name: Pipeline
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      GITGUARDIAN_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: true
+      HEROKU_API_KEY:
+        required: true
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  security_sast:
+    uses: ./.github/workflows/security_sast.yml
+    secrets:
+      GITGUARDIAN_TOKEN: ${{ secrets.GITGUARDIAN_API_KEY }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  deploy_to_heroku:
+    uses: ./.github/workflows/deploy.yml
+    needs: security_sast
+    secrets:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
