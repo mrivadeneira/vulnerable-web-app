@@ -3,7 +3,7 @@ name: Security SAST
 on:
   workflow_call:
     secrets:
-      GITGUARDIAN_TOKEN:
+      GITGUARDIAN_API_KEY:
         required: true 
       SNYK_TOKEN:
         required: true  
@@ -24,7 +24,7 @@ jobs:
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
           GITHUB_PULL_BASE_SHA:  ${{ github.event.pull_request.base.sha }}
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITGUARDIAN_TOKEN: ${{ secrets.GITGUARDIAN_TOKEN }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
   
   snyk:
     name: Snyk scan
