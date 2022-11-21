@@ -49,35 +49,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
   semgrep:
-    name: Semgrep Scan
+    name: Scan
     runs-on: ubuntu-20.04
-    needs: gitguardian
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
     container:
       image: returntocorp/semgrep
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Semgrep Scan
-      continue-on-error: true
-      run: |
-        cat << 'EOF' | bash
-            semgrep ci --config=auto --sarif --output=semgrep.sarif --max-target-bytes=2MB
-            EXIT_CODE=$?
-            if [ "$EXIT_CODE" = "0" ] || [ "$EXIT_CODE" = "1" ]
-            then
-              exit 0
-            else
-              exit $EXIT_CODE
-            fi
-        EOF
-    - name: Github Upload
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: semgrep.sarif
-        category: semgrep
+    - uses: actions/checkout@v3
+    - run: semgrep ci  
 
   # snyk:
   #   name: Snyk scan
