@@ -3,8 +3,6 @@ name: Security DAST
 on:
   workflow_call:
     secrets:
-      GITGUARDIAN_API_KEY:
-        required: true
       GH_EKO_TOKEN:
         required: true
 
@@ -20,7 +18,7 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_EKO_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
           target: 'https://maximiliano-rivadeneira.herokuapp.com/'
           cmd_options: '-a'
