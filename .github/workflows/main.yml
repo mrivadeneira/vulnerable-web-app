@@ -25,6 +25,7 @@ jobs:
   security_sast:
     uses: ./.github/workflows/security_sast.yml
     secrets:
+      GH_EKO_TOKEN: ${{ secrets.GH_EKO_TOKEN }}
       GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
       # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
