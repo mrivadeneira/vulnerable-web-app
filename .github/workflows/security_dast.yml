@@ -22,4 +22,5 @@ jobs:
           docker_name: 'owasp/zap2docker-stable'
           target: 'https://maximiliano-rivadeneira.herokuapp.com/'
           cmd_options: '-a'
+          allow_issue_writing: true
         continue-on-error: true
