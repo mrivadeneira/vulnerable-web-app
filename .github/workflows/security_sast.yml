@@ -36,4 +36,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: npm install; monitor --file=package.json
+          command: monitor --file=package.json
