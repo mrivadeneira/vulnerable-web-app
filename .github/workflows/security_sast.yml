@@ -9,6 +9,8 @@ on:
         required: true
       # SNYK_TOKEN:
       #   required: true  
+      SEMGREP_APP_TOKEN:
+        required: true
 
 jobs:
   gitguardian:
@@ -32,7 +34,8 @@ jobs:
       runs-on: ubuntu-latest
       needs: gitguardian
       steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
@@ -46,6 +49,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  semgrep:
+    name: Semgrep Scan
+    runs-on: ubuntu-20.04
+    needs: gitguardian
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    container:
+      image: returntocorp/semgrep
+    steps:
+    - name: Checkout & Scan
+      uses: actions/checkout@v3
+      run: |
+        cat << 'EOF' | bash
+            semgrep ci --config=auto --sarif --output=semgrep.sarif --max-target-bytes=2MB
+            EXIT_CODE=$?
+            if [ "$EXIT_CODE" = "0" ] || [ "$EXIT_CODE" = "1" ]
+            then
+              exit 0
+            else
+              exit $EXIT_CODE
+            fi
+        EOF
+    - name: Github Upload
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: semgrep.sarif
+        category: semgrep
 
   # snyk:
   #   name: Snyk scan
