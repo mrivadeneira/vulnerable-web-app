@@ -10,6 +10,8 @@ on:
         required: true
       # SNYK_TOKEN:
       #   required: true
+      SEMGREP_APP_TOKEN:
+        required: true
       HEROKU_API_KEY:
         required: true
   push:
@@ -24,6 +26,7 @@ jobs:
       GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
       # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
   deploy_to_heroku:
     uses: ./.github/workflows/deploy.yml
     needs: security_sast
