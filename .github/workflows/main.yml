@@ -35,3 +35,7 @@ jobs:
     needs: security_sast
     secrets:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  security_dast:
+    uses: ./.github/workflows/security_dast.yml
+    secrets:
+      GH_EKO_TOKEN: ${{ secrets.GH_EKO_TOKEN }}
