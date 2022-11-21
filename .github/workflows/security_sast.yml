@@ -3,6 +3,8 @@ name: Security SAST
 on:
   workflow_call:
     secrets:
+      GH_EKO_TOKEN:
+        required: true
       GITGUARDIAN_API_KEY:
         required: true
       SONAR_TOKEN:
@@ -47,11 +49,11 @@ jobs:
             -Dsonar.organization=mrivadeneira
             -Dsonar.projectKey=mrivadeneira_vulnerable-web-app
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_EKO_TOKEN: ${{ secrets.GH_EKO_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   
   semgrep:
-    name: Scan
+    name: Semgrep Scan
     runs-on: ubuntu-20.04
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}

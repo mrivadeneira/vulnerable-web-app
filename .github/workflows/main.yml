@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   workflow_call:
     secrets:
+      GH_EKO_TOKEN:
+        required: true
       GITGUARDIAN_API_KEY:
         required: true
       SONAR_TOKEN:
